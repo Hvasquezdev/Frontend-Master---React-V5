@@ -14,7 +14,7 @@ const SearchParams = () => {
     const { animals } = await pet.animals({
       location,
       breed,
-      type: animal,
+      type: animal
     });
 
     setPets(animals || []);
