@@ -1,7 +1,9 @@
 import React from "react";
+import { navigate } from "@reach/router";
 import Pet from "@frontendmasters/pet";
 import Carousel from "./Carousel";
 import ErrorBoundary from "./ErrorBoundary";
+import Modal from "./Modal";
 
 class Details extends React.Component {
   constructor(props) {
@@ -10,6 +12,7 @@ class Details extends React.Component {
     this.state = {
       isLoading: true,
       hasError: false,
+      showModal: false,
     };
   }
 
@@ -17,6 +20,7 @@ class Details extends React.Component {
     Pet.animal(this.props.id)
       .then(({ animal }) => {
         this.setState({
+          url: animal.url,
           name: animal.name,
           animal: animal.type,
           location: `${animal.contact.address.city}, ${animal.contact.address.state}`,
@@ -36,6 +40,16 @@ class Details extends React.Component {
       });
   }
 
+  toggleModal() {
+    this.setState({
+      showModal: !this.state.showModal,
+    });
+  }
+
+  adoptPet() {
+    navigate(this.state.url);
+  }
+
   render() {
     if (this.state.hasError) {
       return <h1>Error fetching the data</h1>;
@@ -45,7 +59,15 @@ class Details extends React.Component {
       return <h1>Loading...</h1>;
     }
 
-    const { name, animal, location, breed, description, media } = this.state;
+    const {
+      name,
+      animal,
+      location,
+      breed,
+      description,
+      media,
+      showModal,
+    } = this.state;
 
     return (
       <div className="details">
@@ -57,9 +79,21 @@ class Details extends React.Component {
             {animal} - {breed} - {location}
           </h2>
 
-          <button>Adopt {name}</button>
+          <button onClick={() => this.toggleModal()}>Adopt {name}</button>
 
           <p>{description}</p>
+
+          {showModal ? (
+            <Modal>
+              <h1>Would you like to adop {name}?</h1>
+              <div className="buttons">
+                <button onClick={() => this.adoptPet()}>Yes</button>
+                <button onClick={() => this.toggleModal()}>
+                  No, I am a monster!
+                </button>
+              </div>
+            </Modal>
+          ) : null}
         </div>
       </div>
     );
