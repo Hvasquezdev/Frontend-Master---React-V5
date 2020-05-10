@@ -1,8 +1,10 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { render } from "react-dom";
 import { Router, Link } from "@reach/router";
 import SearchParams from "./SearchParams";
-import Details from "./Details";
+
+// Lazy loaded
+const Details = React.lazy(() => import('./Details'));
 
 const App = () => {
   return (
@@ -11,10 +13,12 @@ const App = () => {
         <header>
           <Link to="/">Adopt Me!</Link>
         </header>
-        <Router>
-          <SearchParams path="/" />
-          <Details path="/details/:id" />
-        </Router>
+        <Suspense fallback={<h1>Loading page...</h1>}>
+          <Router>
+            <SearchParams path="/" />
+            <Details path="/details/:id" />
+          </Router>
+        </Suspense>
       </div>
     </React.StrictMode>
   );

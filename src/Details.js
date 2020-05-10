@@ -3,7 +3,9 @@ import { navigate } from "@reach/router";
 import Pet from "@frontendmasters/pet";
 import Carousel from "./Carousel";
 import ErrorBoundary from "./ErrorBoundary";
-import Modal from "./Modal";
+
+// Lazy loaded
+const Modal = React.lazy(() => import("./Modal"));
 
 class Details extends React.Component {
   constructor(props) {
