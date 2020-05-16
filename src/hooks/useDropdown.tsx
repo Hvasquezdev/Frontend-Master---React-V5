@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, FunctionComponent} from "react";
 
-const useDropdown = (label, defaultState, options) => {
+const useDropdown = (label: string, defaultState: string, options: string[]) => {
   const [state, setState] = useState(defaultState);
   const id = `use-dropdown-${label.replace(" ", "").toLowerCase()}`;
 
-  const Dropdown = () => {
+  const Dropdown: FunctionComponent = () => {
     return (
       <label htmlFor={id}>
         {label}
