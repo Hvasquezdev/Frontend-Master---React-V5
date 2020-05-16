@@ -5,9 +5,9 @@ import Carousel from "./Carousel";
 import ErrorBoundary from "./ErrorBoundary";
 import Modal from "./Modal";
 
-interface Props {
+interface Props extends RouteComponentProps<{
   id: string
-}
+}> {}
 
 interface State {
   isLoading: boolean,

@@ -1,9 +1,10 @@
 import React, { useState, useEffect, FunctionComponent } from "react";
+import { RouteComponentProps } from "@reach/router";
 import pet, { ANIMALS, Animal } from "@frontendmasters/pet";
 import useDropdown from "./hooks/useDropdown";
 import Results from "./Results";
 
-const SearchParams: FunctionComponent = () => {
+const SearchParams: FunctionComponent<RouteComponentProps> = () => {
   const [location, setLocation] = useState("Bolívar, Venezuela");
   const [breeds, setBreeds] = useState([] as string[]);
   const [animal, AnimalDropdown] = useDropdown("Animal", "dog", ANIMALS);
