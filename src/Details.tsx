@@ -1,23 +1,52 @@
 import React from "react";
-import { navigate } from "@reach/router";
-import Pet from "@frontendmasters/pet";
+import { navigate, RouteComponentProps } from "@reach/router";
+import Pet, { Photo } from "@frontendmasters/pet";
 import Carousel from "./Carousel";
 import ErrorBoundary from "./ErrorBoundary";
 import Modal from "./Modal";
 
-class Details extends React.Component {
-  constructor(props) {
+interface Props {
+  id: string
+}
+
+interface State {
+  isLoading: boolean,
+  hasError: boolean,
+  showModal: boolean,
+  name: string,
+  animal: string,
+  location: string,
+  breed: string,
+  description: string,
+  media: Photo[],
+  url: string
+}
+
+class Details extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
 
     this.state = {
       isLoading: true,
       hasError: false,
       showModal: false,
+      name: "",
+      animal: "",
+      location: "",
+      breed: "",
+      description: "",
+      media: [] as Photo[],
+      url: ""
     };
   }
 
   componentDidMount() {
-    Pet.animal(this.props.id)
+    if (!this.props.id) {
+      navigate('/');
+      return;
+    }
+
+    Pet.animal(+this.props.id)
       .then(({ animal }) => {
         this.setState({
           url: animal.url,
@@ -100,7 +129,7 @@ class Details extends React.Component {
   }
 }
 
-export default function DetailsWithErrorBoundary(props) {
+export default function DetailsWithErrorBoundary(props: Props) {
   return (
     <ErrorBoundary>
       <Details {...props} />
